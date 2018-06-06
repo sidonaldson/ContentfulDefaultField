@@ -15,8 +15,47 @@
 <script>
 'use strict';
 window.contentfulExtension.init(function (extension) {
+
     extension.window.startAutoResizer();
-    extension.field.setValue('Simon');
+
+    var inputEl = document.querySelector('.cf-form-input');
+
+    var detachValueChangeHandler = extension.field.onValueChanged(valueChangeHandler);
+
+    inputEl.addEventListener('input', keyboardInputHandler);
+    window.addEventListener('onbeforeunload', unloadHandler);
+
+    var defaultColor = extension.parameters.instance.defaultColor;
+    document.querySelector('.default-value').appendChild(document.createTextNode(defaultColor))
+
+    if (extension.entry.getSys().version == 1 && extension.field.getValue() === undefined) {
+        extension.field.setValue(defaultColor);
+    }
+
+    function valueChangeHandler(value) {
+        inputEl.value = value;
+        extension.field.setInvalid(isInvalidColor(value));
+        document.querySelector(".cf-form-field").style.borderLeft = "5px solid " + value;
+    }
+
+    function keyboardInputHandler() {
+        var value = inputEl.value;
+        if (typeof value !== 'string' || value === '') {
+            extension.field.removeValue();
+        } else {
+            extension.field.setValue(value);
+        }
+    }
+
+    function isInvalidColor(value) {
+        return value === undefined || value.match(/#([a-f0-9]{3}){1,2}\b/i) === null;
+    }
+
+    function unloadHandler() {
+        window.removeEventListener('onbeforeunload', unloadHandler);
+        inputEl.removeEventListener('input', keyboardInputHandler);
+        detachValueChangeHandler();
+    }
 });
 </script>
 </body>
