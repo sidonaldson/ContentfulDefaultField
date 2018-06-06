@@ -18,11 +18,10 @@ window.contentfulExtension.init(function (extension) {
     extension.window.startAutoResizer();
     var inputEl = document.querySelector('.cf-form-input');
   	var hintEl = document.querySelector('.cf-form-hint');
-    extension.field.setValue(extension.parameters.instance.defaultColor);
-    inputEl.value = extension.parameters.instance.defaultColor;
+    extension.field.setValue(extension.parameters.instance.category);
+    inputEl.value = extension.parameters.instance.category;
     inputEl.disabled = true;
     hintEl.style.display = 'none';  
-  	console.log('hello', extension.parameters.instance);
 });
 </script>
 </body>
