@@ -26,11 +26,10 @@ window.contentfulExtension.init(function (extension) {
     window.addEventListener('onbeforeunload', unloadHandler);
 
     var defaultColor = extension.parameters.instance.defaultColor;
-    document.querySelector('.default-value').appendChild(document.createTextNode(defaultColor))
+    document.querySelector('.default-value').appendChild(document.createTextNode('simon'+defaultColor))
 
-    if (extension.entry.getSys().version == 1) {
-        extension.field.setValue(defaultColor);
-    }
+    extension.field.setValue(defaultColor);
+  
 
     function valueChangeHandler(value) {
         inputEl.value = value;
