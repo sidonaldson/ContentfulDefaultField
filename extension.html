@@ -15,41 +15,14 @@
 <script>
 'use strict';
 window.contentfulExtension.init(function (extension) {
-
     extension.window.startAutoResizer();
-
     var inputEl = document.querySelector('.cf-form-input');
-
-    var detachValueChangeHandler = extension.field.onValueChanged(valueChangeHandler);
-
-    inputEl.addEventListener('input', keyboardInputHandler);
-    window.addEventListener('onbeforeunload', unloadHandler);
-
-    var defaultColor = extension.parameters.instance.defaultColor;
-    document.querySelector('.default-value').appendChild(document.createTextNode('simon'+defaultColor))
-
-    extension.field.setValue(defaultColor);
-  
-
-    function valueChangeHandler(value) {
-        inputEl.value = value;
-        document.querySelector(".cf-form-field").style.borderLeft = "5px solid " + value;
-    }
-
-    function keyboardInputHandler() {
-        var value = inputEl.value;
-        if (typeof value !== 'string' || value === '') {
-            extension.field.removeValue();
-        } else {
-            extension.field.setValue(value);
-        }
-    }
-
-    function unloadHandler() {
-        window.removeEventListener('onbeforeunload', unloadHandler);
-        inputEl.removeEventListener('input', keyboardInputHandler);
-        detachValueChangeHandler();
-    }
+  	var hintEl = document.querySelector('.cf-form-hint');
+    extension.field.setValue(extension.parameters.instance.defaultColor);
+    inputEl.value = extension.parameters.instance.defaultColor;
+    inputEl.disabled = true;
+    hintEl.style.display = 'none';  
+  	console.log('hello', extension.parameters.instance);
 });
 </script>
 </body>
